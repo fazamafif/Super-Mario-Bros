@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Super Mario Bros</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Retro 8-Bit Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Plus+Jakarta+Sans:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+    .font-retro {
+      font-family: 'Press Start 2P', monospace;
+    }
+    /* Pixelated canvas rendering */
+    canvas {
+      image-rendering: -moz-crisp-edges;
+      image-rendering: -webkit-crisp-edges;
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-white min-h-screen flex flex-col items-center justify-center p-4 selection:bg-red-500 selection:text-white">
+
+  <!-- Main Arcade Frame -->
+  <div class="w-full max-w-[860px] bg-slate-900 border-4 border-slate-700 rounded-2xl p-5 shadow-2xl shadow-black relative">
+    
+    <!-- Header & HUD -->
+    <header class="bg-black/80 border-2 border-slate-800 rounded-xl px-6 py-3 mb-4 font-retro text-xs sm:text-sm flex items-center justify-between shadow-inner">
+      <div class="text-center">
+        <span class="text-slate-400 block text-[10px] mb-1">MARIO</span>
+        <span id="scoreDisplay" class="text-yellow-400 font-bold tracking-widest">000000</span>
+      </div>
+
+      <div class="text-center">
+        <span class="text-slate-400 block text-[10px] mb-1">COINS</span>
+        <span class="text-amber-300 font-bold flex items-center justify-center gap-1.5">
+          <i class="fa-solid fa-coins text-yellow-400"></i>
+          <span>x <span id="coinsDisplay">00</span></span>
+        </span>
+      </div>
+
+      <div class="text-center">
+        <span class="text-slate-400 block text-[10px] mb-1">WORLD</span>
+        <span class="text-white font-bold tracking-wider">1-1</span>
+      </div>
+
+      <div class="text-center">
+        <span class="text-slate-400 block text-[10px] mb-1">STATUS</span>
+        <span id="statusDisplay" class="text-emerald-400 font-bold">ALIVE</span>
+      </div>
+    </header>
+
+    <!-- Canvas Wrapper (800x400) -->
+    <div class="relative w-full aspect-[2/1] max-w-[800px] mx-auto bg-[#5C94FC] border-4 border-black rounded-lg overflow-hidden shadow-2xl">
+      <!-- HTML5 Game Canvas -->
+      <canvas id="gameCanvas" width="800" height="400" class="w-full h-full block"></canvas>
+
+      <!-- Overlay Game Over -->
+      <div id="gameOverModal" class="hidden absolute inset-0 bg-black/85 flex flex-col items-center justify-center text-center p-6 z-20">
+        <div class="text-5xl mb-3 animate-bounce">💀</div>
+        <h2 class="font-retro text-2xl sm:text-3xl text-red-500 tracking-wider mb-3">GAME OVER</h2>
+        <p class="font-retro text-xs text-slate-300 mb-6 max-w-md leading-relaxed">
+          Mario gugur! Jangan menyerah, ayo taklukkan rintangan World 1-1!
+        </p>
+        <button id="btnPlayAgain" class="font-retro text-xs px-6 py-3.5 bg-yellow-400 hover:bg-yellow-300 text-black border-2 border-white rounded shadow-lg shadow-yellow-500/30 transform active:scale-95 transition cursor-pointer">
+          MAIN LAGI
+        </button>
+      </div>
+
+      <!-- Overlay Kemenangan (Level Complete) -->
+      <div id="victoryModal" class="hidden absolute inset-0 bg-black/85 flex flex-col items-center justify-center text-center p-6 z-20">
+        <h2 class="font-retro text-2xl sm:text-3xl text-emerald-400 tracking-wider mb-3">STAGE CLEAR!</h2>
+        <p class="font-retro text-xs text-slate-200 mb-2">Selamat! Kamu berhasil mencapai bendera dan kastil!</p>
+        <p class="font-retro text-xs text-yellow-400 mb-6">Skor Akhir: <span id="finalScoreDisplay">0</span></p>
+        <button id="btnPlayAgainWin" class="font-retro text-xs px-6 py-3.5 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold border-2 border-white rounded shadow-lg shadow-emerald-500/30 transform active:scale-95 transition cursor-pointer">
+          MAIN LAGI
+        </button>
+      </div>
+    </div>
+
+    <!-- Controls Guide Footer -->
+    <footer class="mt-4 pt-3 border-t border-slate-800 flex flex-wrap items-center justify-between gap-3 text-xs text-slate-400">
+      <div class="flex items-center gap-2">
+        <span class="font-semibold text-slate-200">Kontrol:</span>
+        <span class="bg-slate-800 px-2 py-1 rounded text-slate-200 font-mono text-[11px] border border-slate-700">← / A</span>
+        <span class="bg-slate-800 px-2 py-1 rounded text-slate-200 font-mono text-[11px] border border-slate-700">→ / D</span>
+        <span>Gerak</span>
+        <span class="bg-slate-800 px-2 py-1 rounded text-slate-200 font-mono text-[11px] border border-slate-700 ml-2">Space / W / ↑</span>
+        <span>Lompat</span>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- Game Engine Script -->
+  <script src="{{ url_for('static', filename='js/game.js') }}"></script>
+</body>
+</html>
